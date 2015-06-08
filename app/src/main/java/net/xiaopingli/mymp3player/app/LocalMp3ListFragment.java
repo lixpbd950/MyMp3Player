@@ -2,11 +2,13 @@ package net.xiaopingli.mymp3player.app;
 
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import net.xiaopingli.download.FileUtil;
 import net.xiaopingli.model.Mp3Info;
@@ -20,6 +22,7 @@ import java.util.*;
  */
 public class LocalMp3ListFragment extends ListFragment {
 
+    private List<Mp3Info> mp3Infos;
 
     public LocalMp3ListFragment() {
         // Required empty public constructor
@@ -46,9 +49,21 @@ public class LocalMp3ListFragment extends ListFragment {
     public void onResume() {
         super.onResume();
         FileUtil util = new FileUtil();
-        List<Mp3Info> mp3Infos = util.getMp3Files("mp3/");
+        mp3Infos = util.getMp3Files("mp3/");
         SimpleAdapter adapter = buildSimpleAdapter(mp3Infos);
         setListAdapter(adapter);
+    }
+
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+        if(mp3Infos!=null){
+            Mp3Info mp3Info = mp3Infos.get(position);
+            Intent intent = new Intent();
+            intent.putExtra("mp3Info",mp3Info);
+            intent.setClass(getActivity(),PlayerActivity.class);
+            getActivity().startActivity(intent);
+        }
     }
 
     public SimpleAdapter buildSimpleAdapter(List<Mp3Info> mp3Infos){
