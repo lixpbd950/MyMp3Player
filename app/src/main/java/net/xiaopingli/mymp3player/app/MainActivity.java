@@ -44,8 +44,8 @@ public class MainActivity extends ActionBarActivity {
                 FragmentManager fm = getSupportFragmentManager();
                 FragmentTransaction ft = fm.beginTransaction();
                 //Mp3ListFragment mp3ListFragment = new Mp3ListFragment();
-                TestFragment testFragment = new TestFragment();
-                ft.replace(R.id.fl_content, testFragment, MainActivity.TAG);
+                LocalMp3ListFragment localMp3ListFragment = new LocalMp3ListFragment();
+                ft.replace(R.id.fl_content, localMp3ListFragment, MainActivity.TAG);
                 ft.commit();
                 setButton(v);
 
