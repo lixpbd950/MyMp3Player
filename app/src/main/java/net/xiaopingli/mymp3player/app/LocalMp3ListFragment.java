@@ -31,10 +31,6 @@ public class LocalMp3ListFragment extends ListFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View contentView = inflater.inflate(R.layout.fragment_local_mp3_list, container, false);
-        FileUtil util = new FileUtil();
-        List<Mp3Info> mp3Infos = util.getMp3Files("mp3/");
-        SimpleAdapter adapter = buildSimpleAdapter(mp3Infos);
-        setListAdapter(adapter);
         System.out.println("------------>LocalMp3ListFragment--->onCreateView");
         return contentView;
     }
@@ -44,6 +40,15 @@ public class LocalMp3ListFragment extends ListFragment {
         System.out.println("------------>LocalMp3ListFragment--->onCreate");
         super.onCreate(savedInstanceState);
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        FileUtil util = new FileUtil();
+        List<Mp3Info> mp3Infos = util.getMp3Files("mp3/");
+        SimpleAdapter adapter = buildSimpleAdapter(mp3Infos);
+        setListAdapter(adapter);
     }
 
     public SimpleAdapter buildSimpleAdapter(List<Mp3Info> mp3Infos){

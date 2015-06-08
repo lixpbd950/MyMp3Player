@@ -25,7 +25,11 @@
             android:enabled="true"
             android:exported="true" >
         </service>
-    </application>
 
+        <activity
+            android:name=".PlayerActivity"
+            android:label="@string/title_activity_player" >
+        </activity>
+    </application>
 
 </manifest>
