@@ -10,10 +10,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import net.xiaopingli.Constants.Constants;
 import net.xiaopingli.model.Mp3Info;
+import net.xiaopingli.service.PlayerService;
 
 import java.io.File;
-import java.io.IOException;
 
 
 public class PlayerActivity extends ActionBarActivity {
@@ -53,49 +54,30 @@ public class PlayerActivity extends ActionBarActivity {
     public class PlayListener implements View.OnClickListener{
         @Override
         public void onClick(View v) {
-            if(!isPlaying && mediaPlayer!=null){
-                mediaPlayer.stop();
-                try {
-                    mediaPlayer.prepare();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                mediaPlayer.start();
-                isPlaying = true;
-                isReleased = false;
-            }
+            Intent serviceIntent = new Intent(PlayerActivity.this,PlayerService.class);
+            serviceIntent.putExtra("MSG", Constants.PlayerMsg.MSG_PLAY);
+            serviceIntent.putExtra("mp3Info",mp3Info);
+            PlayerActivity.this.startService(serviceIntent);
         }
     }
 
     public class PauseListener implements View.OnClickListener{
         @Override
         public void onClick(View v) {
-            if(mediaPlayer!=null){
-                if(!isPaused){
-                    mediaPlayer.pause();
-                    isPaused=true;
-                    isPlaying=true;
-                }else {
-                    mediaPlayer.start();
-                    isPaused=false;
-                }
-            }
+            Intent serviceIntent = new Intent(PlayerActivity.this,PlayerService.class);
+            serviceIntent.putExtra("MSG", Constants.PlayerMsg.MSG_PAUSE);
+            serviceIntent.putExtra("mp3Info",mp3Info);
+            getApplicationContext().startService(serviceIntent);
         }
     }
 
     public class StopListener implements View.OnClickListener{
         @Override
         public void onClick(View v) {
-            if(mediaPlayer!=null){
-                if(isPlaying){
-                    if(!isReleased){
-                        mediaPlayer.stop();
-                        mediaPlayer.release();
-                        isReleased = true;
-                    }
-                    isPlaying = false;
-                }
-            }
+            Intent serviceIntent = new Intent(PlayerActivity.this,PlayerService.class);
+            serviceIntent.putExtra("MSG", Constants.PlayerMsg.MSG_STOP);
+            serviceIntent.putExtra("mp3Info",mp3Info);
+            getApplicationContext().startService(serviceIntent);
         }
     }
 
